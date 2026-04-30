@@ -3,9 +3,9 @@
 name: product-catalog-ci
 
 on: 
-    push:
-      branches:
-        - main
+    pull_request:
+          branches:
+            - main
 
 jobs:
     build:
@@ -33,6 +33,7 @@ jobs:
     
     code-quality:
         runs-on: ubuntu-latest
+        needs: build
 
         steps:
         - name: checkout code
@@ -80,7 +81,7 @@ jobs:
     updatek8s:
         runs-on: ubuntu-latest
 
-        needs: docker
+        needs: [build, docker]
 
         steps:
         - name: checkout code
